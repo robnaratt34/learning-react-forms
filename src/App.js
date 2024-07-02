@@ -1,24 +1,30 @@
-import logo from './logo.svg';
 import './App.css';
+import {useState} from "react";
+import SubscriberForm from "./SubscriberForm.js";
+import SubscriberList from "./SubscriberList";
 
 function App() {
+  const [subscribers, setSubscribers] = useState([]);
+
+  const createSubscriber = (newSubscriber) =>
+    setSubscribers((currentSubscribers) => [
+      newSubscriber,
+      ...currentSubscribers,
+    ]);
+
+  const deleteSubscriber = (indexToDelete) =>
+    setSubscribers((currentSubscribers) =>
+      currentSubscribers.filter((post, index) => index !== indexToDelete)
+    );
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <SubscriberForm createSubscriber={createSubscriber} />
+      <SubscriberList
+        subscribers={subscribers}
+        deleteSubscriber={deleteSubscriber}
+      />
+    </>    
   );
 }
 
